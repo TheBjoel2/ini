@@ -179,7 +179,7 @@ ini_t* ini_load(const char *filename) {
   int n, sz;
 
   /* Init ini struct */
-  ini = malloc(sizeof(*ini));
+  ini = reinterpret_cast<ini_t*>(malloc(sizeof(*ini)));
   if (!ini) {
     goto fail;
   }
@@ -197,7 +197,7 @@ ini_t* ini_load(const char *filename) {
   rewind(fp);
 
   /* Load file content into memory, null terminate, init end var */
-  ini->data = malloc(sz + 1);
+  ini->data = reinterpret_cast<char*>(malloc(sz + 1));
   ini->data[sz] = '\0';
   ini->end = ini->data  + sz;
   n = fread(ini->data, 1, sz, fp);
@@ -226,7 +226,8 @@ void ini_free(ini_t *ini) {
 
 
 const char* ini_get(ini_t *ini, const char *section, const char *key) {
-  char *current_section = "";
+  char garbage = '\n';
+  char *current_section = &garbage;
   char *val;
   char *p = ini->data;
 

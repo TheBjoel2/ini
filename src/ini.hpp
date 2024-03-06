@@ -17,6 +17,6 @@ inline void        ini_free(ini_t *ini);
 inline const char* ini_get(ini_t *ini, const char *section, const char *key);
 inline int         ini_sget(ini_t *ini, const char *section, const char *key, const char *scanfmt, void *dst);
 
-#include "ini.c"
+#include "ini.cpp"
 
 #endif
